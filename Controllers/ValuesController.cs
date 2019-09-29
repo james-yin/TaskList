@@ -31,6 +31,14 @@ namespace TaskList.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] IEnumerable<YinActivity> activities)
         {
+            if (_db.YinActivities.Count() != 0)
+            {
+                return BadRequest(new
+                {
+                    error = "Cannot POST with existing DB records"
+                });
+            }
+
             DateTime dt = DateTime.Now;
 
             foreach (var act in activities)
